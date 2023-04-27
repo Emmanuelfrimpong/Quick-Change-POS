@@ -1,0 +1,152 @@
+// ignore_for_file: file_names
+
+import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:quickchange_pos/utils/app_colors.dart';
+
+import '../../services/settings_controller.dart';
+
+class CustomTextFields extends ConsumerWidget {
+  const CustomTextFields({
+    Key? key,
+    this.controller,
+    this.label,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.obscureText,
+    this.keyboardType,
+    this.validator,
+    this.onChanged,
+    this.onSaved,
+    this.maxLines,
+    this.hintText,
+    this.radius,
+    this.isCapitalized = false,
+    this.isDigitOnly = false,
+    this.isReadOnly = false,
+    this.onTap,
+    this.color = Colors.white,
+    this.max = 999999,
+    this.min = 0,
+  }) : super(key: key);
+  final TextEditingController? controller;
+  final String? label;
+  final String? hintText;
+  final IconData? prefixIcon;
+  final Widget? suffixIcon;
+  final bool? obscureText;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+  final void Function(String?)? onSaved;
+  final void Function()? onTap;
+  final int? maxLines;
+  final double? radius;
+  final bool? isCapitalized;
+  final bool? isDigitOnly;
+  final bool? isReadOnly;
+  final Color color;
+  final int? max, min;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var themeMode = ref.watch(themeProvider);
+    var theme = AdaptiveTheme.of(context).theme;
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      obscureText: obscureText ?? false,
+      onTap: onTap,
+      validator: validator,
+      inputFormatters: [
+        if (isCapitalized!) UpperCaseTextFormatter(),
+        if (isDigitOnly ?? false)
+          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+        PreventDeleteFormatter(max!, min!),
+      ],
+      textCapitalization: isCapitalized!
+          ? TextCapitalization.characters
+          : TextCapitalization.none,
+      style: normalStyle(
+          context: context, fontSize: 16, fontWeight: FontWeight.bold),
+      onChanged: onChanged,
+      onSaved: onSaved,
+      maxLines: maxLines ?? 1,
+      readOnly: isReadOnly ?? false,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radius ?? 5),
+          borderSide: const BorderSide(
+            color: primaryColors,
+            width: 1,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radius ?? 5),
+          borderSide: const BorderSide(
+            color: primaryColors,
+            width: 1,
+          ),
+        ),
+        fillColor: Colors.transparent,
+        filled: true,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radius ?? 5),
+          borderSide: const BorderSide(color: primaryColors),
+        ),
+        prefixIconColor: primaryColors,
+        suffixIconColor: primaryColors,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
+        labelStyle: normalStyle(
+            context: context, fontSize: 16, fontWeight: FontWeight.w400),
+        labelText: label,
+        hintText: hintText,
+        focusColor: primaryColors,
+        iconColor: Colors.grey,
+        hintStyle: normalStyle(
+            context: context, fontSize: 16, fontWeight: FontWeight.w400),
+        prefixIcon: prefixIcon != null
+            ? Icon(
+                prefixIcon,
+                size: 18,
+                color: primaryColors,
+              )
+            : null,
+        suffixIcon: suffixIcon,
+      ),
+    );
+  }
+}
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (RegExp("[a-zA-Z,]").hasMatch(newValue.text)) {
+      return TextEditingValue(
+        text: newValue.text.toUpperCase(),
+        selection: newValue.selection,
+      );
+    } else if (!RegExp(r'^[a-zA-Z0-9_\-=@+,\.;]+$').hasMatch(newValue.text)) {
+      return newValue;
+    }
+    return oldValue;
+  }
+}
+
+class PreventDeleteFormatter extends TextInputFormatter {
+  final int max, min;
+
+  PreventDeleteFormatter(this.max, this.min);
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.length > min - 1 && newValue.text.length < max + 1) {
+      return newValue;
+    }
+    return oldValue;
+  }
+}

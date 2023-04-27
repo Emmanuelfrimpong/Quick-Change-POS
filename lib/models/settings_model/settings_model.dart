@@ -14,7 +14,7 @@ class SettingsModel {
   @HiveField(2)
   String? companyName;
   @HiveField(3)
-  String? slogan;
+  String? companyDescription;
   @HiveField(4)
   String? location;
   @HiveField(5)
@@ -22,26 +22,32 @@ class SettingsModel {
   @HiveField(6)
   String? email;
   @HiveField(7)
-  String? themeType;
-  @HiveField(8)
   Color? primaryColor;
-  @HiveField(9)
+  @HiveField(8)
   Color? secondaryColor;
 
   SettingsModel({
     this.language,
     this.companyLogo,
     this.companyName,
-    this.slogan,
+    this.companyDescription,
     this.location,
     this.telephone,
     this.email,
-    this.themeType,
     this.primaryColor,
     this.secondaryColor,
   });
 
+  //create a default settings
+  static SettingsModel defaultSettings() {
+    return SettingsModel(
+      language: 'en',
+      companyLogo: null,
+      companyName: null,
+      companyDescription: null,
+      location: null,
+      telephone: null,
+      email: null,
+    );
+  }
 }
-
-
- 

@@ -47,15 +47,10 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var settings = ref.watch(settingsController);
     return AdaptiveTheme(
       light: kLightTheme,
       dark: kDarkTheme,
-      initial: settings != null
-          ? settings.themeType == AdaptiveThemeMode.light.name
-              ? AdaptiveThemeMode.light
-              : AdaptiveThemeMode.dark
-          : AdaptiveThemeMode.light,
+      initial: ref.watch(themeProvider),
       builder: (theme, darkTheme) => MaterialApp(
           debugShowCheckedModeBanner: false,
           scrollBehavior: const MaterialScrollBehavior().copyWith(
@@ -69,7 +64,7 @@ class MyApp extends ConsumerWidget {
           title: 'Quick Change POS',
           theme: theme,
           darkTheme: darkTheme,
-            builder: FlutterSmartDialog.init(),
+          builder: FlutterSmartDialog.init(),
           home: const InitialPage()),
     );
   }

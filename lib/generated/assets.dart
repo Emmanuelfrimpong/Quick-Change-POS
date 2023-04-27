@@ -2,8 +2,8 @@
 class Assets {
   Assets._();
 
-  static const String translationsEn = 'assets/translations/en.json';
-  static const String translationsFr = 'assets/translations/fr.json';
-  static const String translationsSv = 'assets/translations/sv.json';
+  static const String imagesLogo = 'assets/images/logo.png';
+  static const String imagesLogoPrimary = 'assets/images/logo_primary.png';
+  static const String imagesLogoSecondary = 'assets/images/logo_secondary.png';
 
 }

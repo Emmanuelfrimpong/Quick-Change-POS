@@ -3,6 +3,10 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quickchange_pos/pages/auth_page/forgot_password.dart';
+import 'package:quickchange_pos/pages/auth_page/login_page.dart';
+import 'package:quickchange_pos/pages/auth_page/new_user_setup.dart';
+import 'package:quickchange_pos/pages/home_page/home_page.dart';
 import 'package:quickchange_pos/pages/settings_pages/setttings_page.dart';
 import 'package:quickchange_pos/utils/app_colors.dart';
 
@@ -20,7 +24,6 @@ class _InitialPageState extends ConsumerState<InitialPage> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -42,8 +45,9 @@ class _InitialPageState extends ConsumerState<InitialPage> {
                 },
                 child: Card(
                   elevation: isHover ? 5 : 0,
-                  color:
-                      AdaptiveTheme.of(context).theme.scaffoldBackgroundColor,
+                  color: ref.watch(themeProvider).isDark && isHover
+                      ? secondaryColors
+                      : AdaptiveTheme.of(context).theme.scaffoldBackgroundColor,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
@@ -70,11 +74,9 @@ class _InitialPageState extends ConsumerState<InitialPage> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onPressed: () {
-                                if (AdaptiveTheme.of(context).mode.isDark) {
-                                  AdaptiveTheme.of(context).setLight();
-                                } else {
-                                  AdaptiveTheme.of(context).setDark();
-                                }
+                                ref
+                                    .read(themeProvider.notifier)
+                                    .updateTheme(context);
                               },
                               icon: Icon(
                                 AdaptiveTheme.of(context).mode.isDark
@@ -97,12 +99,16 @@ class _InitialPageState extends ConsumerState<InitialPage> {
           Expanded(
             child: Container(
               alignment: Alignment.center,
-              color: Colors.white.withOpacity(.5),
               child: ref.watch(settingsExist)
                   ? IndexedStack(
                       alignment: Alignment.center,
-                      index: nav.currentIndex,
-                      children: const [],
+                      index: ref.watch(authStatus),
+                      children: const [
+                        HomePage(),
+                        LoginPage(),
+                        NewUserPage(),
+                        ForgotPasswordPage()
+                      ],
                     )
                   : const SettingsPage(),
             ),
