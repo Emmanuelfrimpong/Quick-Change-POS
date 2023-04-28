@@ -1,12 +1,18 @@
+import 'dart:io';
+
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quickchange_pos/core/widgets/custom_button.dart';
 import 'package:quickchange_pos/core/widgets/custom_input.dart';
+import 'package:quickchange_pos/core/widgets/smart_dialog.dart';
 import 'package:quickchange_pos/utils/app_colors.dart';
 
 import '../../core/constants.dart';
+import '../../core/functions/global_functions.dart';
+import '../../generated/assets.dart';
 import '../../services/settings_controller.dart';
 
 class CompanyInfoPage extends ConsumerStatefulWidget {
@@ -18,11 +24,41 @@ class CompanyInfoPage extends ConsumerStatefulWidget {
 
 class _CompanyInfoPageState extends ConsumerState<CompanyInfoPage> {
   final _formKey = GlobalKey<FormState>();
+  //define company attributes
+  Uint8List? logo;
+  String? companyName;
+  String? companyDescription;
+  String? companyPhone;
+  String? companyLocation;
+  String? companyEmail;
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _locationController = TextEditingController();
+  final _emailController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    //check if widget is done building
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var settings = ref.watch(settingsController);
+      if (!settings.isDefault) {
+        _nameController.text = settings.companyName ?? settings.companyName!;
+        _descriptionController.text =
+            settings.companyDescription ?? settings.companyDescription!;
+        _phoneController.text = settings.telephone ?? settings.telephone!;
+        _locationController.text = settings.location ?? settings.location!;
+        _emailController.text = settings.email ?? settings.email!;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var themeMode = ref.watch(themeProvider);
     var theme = AdaptiveTheme.of(context).theme;
     var size = MediaQuery.of(context).size;
+
     return Card(
       elevation: 5,
       margin: EdgeInsets.symmetric(
@@ -49,10 +85,66 @@ class _CompanyInfoPageState extends ConsumerState<CompanyInfoPage> {
                 ),
               ),
               alignment: Alignment.center,
-              child: Column(children: [
-                //add logo here
-              
-              ]),
+              child: SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      //add logo here
+                      Image.asset(
+                        Assets.imagesLogoPrimary,
+                        width: size.width * .23,
+                      ),
+                      ListTile(
+                        title: Container(
+                          margin: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.black54.withOpacity(.5)),
+                          padding: const EdgeInsets.all(15),
+                          child: RichText(
+                            text: TextSpan(
+                                text: 'Note:',
+                                style: subTitleStyle(
+                                    context: context,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400),
+                                children: [
+                                  TextSpan(
+                                      text:
+                                          ' if you are a new user creating an account for your company on Quick Change POS, here are some important things to keep in mind:',
+                                      style: normalStyle(
+                                          context: context,
+                                          color: Colors.white38))
+                                ]),
+                          ),
+                        ),
+                        subtitle: SingleChildScrollView(
+                          child: Column(
+                            children: newUserInfo.map((txt) {
+                              return Container(
+                                margin: const EdgeInsets.only(
+                                    left: 40, right: 5, top: 5),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.black54.withOpacity(.5)),
+                                padding: const EdgeInsets.all(15),
+                                child: RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: txt,
+                                        style: normalStyle(
+                                            context: context,
+                                            color: Colors.white38))
+                                  ]),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ]),
+              ),
             ),
           ),
           Expanded(
@@ -95,28 +187,46 @@ class _CompanyInfoPageState extends ConsumerState<CompanyInfoPage> {
                         const SizedBox(height: 24),
                         InkWell(
                           onTap: () => pickImage(),
-                          child: Container(
-                            width: 200,
-                            height: 200,
-                            color: themeMode.isDark
-                                ? backgroundColors
-                                : Colors.black12,
-                            alignment: Alignment.bottomCenter,
-                            padding: const EdgeInsets.all(5),
-                            child: Text(
-                              'Select Company Logo*',
-                              style: normalStyle(context: context),
-                            ),
-                          ),
+                          child: logo != null
+                              ? Container(
+                                  width: 200,
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: MemoryImage(logo!))),
+                                  alignment: Alignment.bottomCenter,
+                                  padding: const EdgeInsets.all(5),
+                                  child: Container(
+                                    color: primaryColors,
+                                    padding: const EdgeInsets.all(5),
+                                    child: Text(
+                                      'Select Company Logo*',
+                                      style: normalStyle(context: context),
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  width: 200,
+                                  height: 200,
+                                  color: themeMode.isDark
+                                      ? backgroundColors
+                                      : Colors.black12,
+                                  alignment: Alignment.bottomCenter,
+                                  padding: const EdgeInsets.all(5),
+                                  child: Text(
+                                    'Select Company Logo*',
+                                    style: normalStyle(context: context),
+                                  ),
+                                ),
                         ),
                         const SizedBox(height: 24),
                         CustomTextFields(
                           label: 'Enter Company Name*',
+                          controller: _nameController,
                           onSaved: (name) {
-                            ref
-                                .read(settingsController.notifier)
-                                .state!
-                                .companyName = name!;
+                            setState(() {
+                              companyName = name;
+                            });
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -128,12 +238,12 @@ class _CompanyInfoPageState extends ConsumerState<CompanyInfoPage> {
                         const SizedBox(height: 24),
                         CustomTextFields(
                           label: 'Enter Company Description*',
+                          controller: _descriptionController,
                           maxLines: 4,
                           onSaved: (description) {
-                            ref
-                                .read(settingsController.notifier)
-                                .state!
-                                .companyDescription = description!;
+                            setState(() {
+                              companyDescription = description;
+                            });
                           },
                           validator: (value) {
                             return null;
@@ -143,12 +253,12 @@ class _CompanyInfoPageState extends ConsumerState<CompanyInfoPage> {
                         CustomTextFields(
                           label: 'Enter Company Telephone*',
                           keyboardType: TextInputType.phone,
+                          controller: _phoneController,
                           max: 10,
                           onSaved: (phone) {
-                            ref
-                                .read(settingsController.notifier)
-                                .state!
-                                .telephone = phone!;
+                            setState(() {
+                              companyPhone = phone;
+                            });
                           },
                           validator: (value) {
                             if (value!.length != 10) {
@@ -160,10 +270,12 @@ class _CompanyInfoPageState extends ConsumerState<CompanyInfoPage> {
                         const SizedBox(height: 24),
                         CustomTextFields(
                           label: 'Enter Company Email',
+                          controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           onSaved: (email) {
-                            ref.read(settingsController.notifier).state!.email =
-                                email!;
+                            setState(() {
+                              companyEmail = email;
+                            });
                           },
                           validator: (value) {
                             if (value!.isNotEmpty &&
@@ -176,11 +288,11 @@ class _CompanyInfoPageState extends ConsumerState<CompanyInfoPage> {
                         const SizedBox(height: 24),
                         CustomTextFields(
                           label: 'Enter Company Location*',
+                          controller: _locationController,
                           onSaved: (location) {
-                            ref
-                                .read(settingsController.notifier)
-                                .state!
-                                .location = location!;
+                            setState(() {
+                              companyLocation = location;
+                            });
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -210,7 +322,40 @@ class _CompanyInfoPageState extends ConsumerState<CompanyInfoPage> {
     final ImagePicker picker = ImagePicker();
 // Pick an image.
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    //get image path
+    if (image != null) {
+      var imageFile = await readFileByte(image.path);
+      setState(() {
+        logo = imageFile;
+      });
+    }
   }
 
-  gotoNext() {}
+  gotoNext() async {
+    if (_formKey.currentState!.validate()) {
+      if (logo != null) {
+        CustomDialog.showLoading(message: 'Please wait..........');
+        try {
+          _formKey.currentState!.save();
+          ref.read(settingsController.notifier).updateFields(
+              companyDescription: companyDescription,
+              companyEmail: companyEmail,
+              companyLocation: companyLocation,
+              companyName: companyName,
+              companyPhone: companyPhone,
+              logo: logo);
+          CustomDialog.dismiss();
+          ref.read(settingsPageIndex.notifier).state = 1;
+        } catch (error) {
+          CustomDialog.dismiss();
+          CustomDialog.showError(
+              title: 'Image Error',
+              message: 'There is something wrong with company logo');
+        }
+      } else {
+        CustomDialog.showError(
+            title: 'Missing data', message: 'Company Logo is required');
+      }
+    }
+  }
 }

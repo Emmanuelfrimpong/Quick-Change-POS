@@ -78,7 +78,5 @@ TextStyle normalStyle(
       fontWeight: fontWeight ?? FontWeight.normal,
       decoration: decoration ?? TextDecoration.none,
       color: color ??
-          (AdaptiveTheme.of(context).mode.isDark
-              ? Colors.white
-              : Colors.black54),
+          (AdaptiveTheme.of(context).mode.isDark ? Colors.white : Colors.black),
     );

@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 //here a create a hive object for settings
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 
 part 'settings_model.g.dart';
@@ -10,7 +10,7 @@ class SettingsModel {
   @HiveField(0)
   String? language;
   @HiveField(1)
-  String? companyLogo;
+  Uint8List? companyLogo;
   @HiveField(2)
   String? companyName;
   @HiveField(3)
@@ -25,6 +25,8 @@ class SettingsModel {
   Color? primaryColor;
   @HiveField(8)
   Color? secondaryColor;
+  @HiveField(9)
+  int? createdAt;
 
   SettingsModel({
     this.language,
@@ -36,6 +38,7 @@ class SettingsModel {
     this.email,
     this.primaryColor,
     this.secondaryColor,
+    this.createdAt,
   });
 
   //create a default settings
@@ -48,6 +51,10 @@ class SettingsModel {
       location: null,
       telephone: null,
       email: null,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
     );
   }
+
+  //create a bool to check if settings is default
+  bool get isDefault => this == defaultSettings();
 }

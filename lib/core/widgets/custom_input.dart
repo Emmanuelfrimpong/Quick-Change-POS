@@ -53,8 +53,6 @@ class CustomTextFields extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var themeMode = ref.watch(themeProvider);
-    var theme = AdaptiveTheme.of(context).theme;
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
@@ -99,15 +97,16 @@ class CustomTextFields extends ConsumerWidget {
         ),
         prefixIconColor: primaryColors,
         suffixIconColor: primaryColors,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
+        contentPadding: EdgeInsets.symmetric(
+            horizontal: 6, vertical: maxLines != null ? 15 : 5),
         labelStyle: normalStyle(
-            context: context, fontSize: 16, fontWeight: FontWeight.w400),
+            context: context, fontSize: 14, fontWeight: FontWeight.w300),
         labelText: label,
         hintText: hintText,
         focusColor: primaryColors,
         iconColor: Colors.grey,
         hintStyle: normalStyle(
-            context: context, fontSize: 16, fontWeight: FontWeight.w400),
+            context: context, fontSize: 14, fontWeight: FontWeight.w300),
         prefixIcon: prefixIcon != null
             ? Icon(
                 prefixIcon,
@@ -125,13 +124,11 @@ class UpperCaseTextFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    if (RegExp("[a-zA-Z,]").hasMatch(newValue.text)) {
+    if (RegExp("[a-zA-Z0-9,]").hasMatch(newValue.text)) {
       return TextEditingValue(
         text: newValue.text.toUpperCase(),
         selection: newValue.selection,
       );
-    } else if (!RegExp(r'^[a-zA-Z0-9_\-=@+,\.;]+$').hasMatch(newValue.text)) {
-      return newValue;
     }
     return oldValue;
   }

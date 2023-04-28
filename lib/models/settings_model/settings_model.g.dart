@@ -18,7 +18,7 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
     };
     return SettingsModel(
       language: fields[0] as String?,
-      companyLogo: fields[1] as String?,
+      companyLogo: fields[1] as Uint8List?,
       companyName: fields[2] as String?,
       companyDescription: fields[3] as String?,
       location: fields[4] as String?,

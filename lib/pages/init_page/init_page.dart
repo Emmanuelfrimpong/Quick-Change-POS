@@ -24,6 +24,8 @@ class _InitialPageState extends ConsumerState<InitialPage> {
 
   @override
   Widget build(BuildContext context) {
+    var themeMode = ref.watch(themeProvider);
+    var theme = AdaptiveTheme.of(context).theme;
     return Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -45,9 +47,9 @@ class _InitialPageState extends ConsumerState<InitialPage> {
                 },
                 child: Card(
                   elevation: isHover ? 5 : 0,
-                  color: ref.watch(themeProvider).isDark && isHover
+                  color: themeMode.isDark && isHover
                       ? secondaryColors
-                      : AdaptiveTheme.of(context).theme.scaffoldBackgroundColor,
+                      : theme.scaffoldBackgroundColor,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
@@ -68,22 +70,29 @@ class _InitialPageState extends ConsumerState<InitialPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: IconButton(
-                              padding: const EdgeInsets.all(0),
-                              splashColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onPressed: () {
-                                ref
-                                    .read(themeProvider.notifier)
-                                    .updateTheme(context);
-                              },
-                              icon: Icon(
-                                AdaptiveTheme.of(context).mode.isDark
+                          child: InkWell(
+                            onTap: () {
+                              ref
+                                  .read(themeProvider.notifier)
+                                  .updateTheme(context);
+                            },
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              decoration: BoxDecoration(
+                                  color: themeMode.isDark
+                                      ? Colors.white.withOpacity(.3)
+                                      : Colors.black.withOpacity(.3),
+                                  borderRadius: BorderRadius.circular(10)),
+                              alignment: Alignment.center,
+                              child: Icon(
+                                themeMode.isDark
                                     ? Icons.wb_sunny
                                     : Icons.nightlight_round,
-                                size: 16,
-                              )),
+                                size: 18,
+                              ),
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           width: 50,

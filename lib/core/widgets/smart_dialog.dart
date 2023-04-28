@@ -26,9 +26,10 @@ class CustomDialog {
       builder: (_) {
         return Container(
           width: 300,
-          padding: const EdgeInsets.all(5),
+          height: 150,
+          padding: const EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.7),
+              color: Colors.white.withOpacity(.9),
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
@@ -48,7 +49,7 @@ class CustomDialog {
                   title,
                   textAlign: TextAlign.center,
                   maxLines: 2,
-                  style: GoogleFonts.nunito(
+                  style: GoogleFonts.roboto(
                       color: Colors.black,
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
@@ -59,7 +60,7 @@ class CustomDialog {
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     style:
-                        GoogleFonts.nunito(color: Colors.black54, fontSize: 13),
+                        GoogleFonts.roboto(color: Colors.black, fontSize: 13),
                   ),
                 const Spacer(),
                 Container(
@@ -105,9 +106,10 @@ class CustomDialog {
       builder: (_) {
         return Container(
           width: 300,
-          padding: const EdgeInsets.all(5),
+          height: 150,
+          padding: const EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.7),
+              color: Colors.white.withOpacity(.9),
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
@@ -129,7 +131,7 @@ class CustomDialog {
                   title,
                   textAlign: TextAlign.center,
                   maxLines: 4,
-                  style: GoogleFonts.nunito(
+                  style: GoogleFonts.roboto(
                       color: Colors.black,
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
@@ -140,7 +142,7 @@ class CustomDialog {
                     textAlign: TextAlign.center,
                     maxLines: 3,
                     style:
-                        GoogleFonts.nunito(color: Colors.black54, fontSize: 13),
+                        GoogleFonts.roboto(color: Colors.black, fontSize: 13),
                   ),
                 const Spacer(),
                 Container(
@@ -195,7 +197,7 @@ class CustomDialog {
           height: 150,
           padding: const EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.7),
+              color: Colors.white.withOpacity(.9),
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
@@ -215,7 +217,7 @@ class CustomDialog {
                   title,
                   textAlign: TextAlign.center,
                   maxLines: 2,
-                  style: GoogleFonts.nunito(
+                  style: GoogleFonts.roboto(
                       color: Colors.black,
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
@@ -229,7 +231,7 @@ class CustomDialog {
                     textAlign: TextAlign.center,
                     maxLines: 4,
                     style:
-                        GoogleFonts.nunito(color: Colors.black54, fontSize: 13),
+                        GoogleFonts.roboto(color: Colors.black, fontSize: 13),
                   ),
                 ),
               const Spacer(),

@@ -1,20 +1,36 @@
 import 'dart:async';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/settings_model/settings_model.dart';
 import 'hive_services.dart';
 import 'package:intl/intl.dart';
 
 final settingsController =
-    StateNotifierProvider<SettingsController, SettingsModel?>((ref) {
+    StateNotifierProvider<SettingsController, SettingsModel>((ref) {
   return SettingsController();
 });
 
-class SettingsController extends StateNotifier<SettingsModel?> {
+class SettingsController extends StateNotifier<SettingsModel> {
   SettingsController() : super(HiveServices.getSettings());
   void updateSettings() {
     state = HiveServices.getSettings();
+  }
+
+  void updateFields(
+      {String? companyName,
+      String? companyDescription,
+      String? companyPhone,
+      String? companyLocation,
+      String? companyEmail,
+      Uint8List? logo}) {
+    state.companyName = companyName;
+    state.companyDescription = companyDescription;
+    state.companyLogo = logo;
+    state.email = companyEmail;
+    state.location = companyLocation;
+    state.telephone = companyPhone;
   }
 }
 
@@ -22,15 +38,14 @@ class SettingsController extends StateNotifier<SettingsModel?> {
 final timerProvider = StreamProvider<String>((ref) {
   return Stream.periodic(
       const Duration(seconds: 1),
-      (String) => DateFormat('EEEE, MMM d yyyy - HH:mm:ss a')
+      (string) => DateFormat('EEEE, MMM d yyyy - HH:mm:ss a')
           .format(DateTime.now().toUtc()));
 });
 
 // create a provider that will check if the settings exist in hive
 // if it does return true else return false
-final settingsExist = StateProvider((ref) =>
-    HiveServices.getSettings() != null &&
-    HiveServices.getSettings()!.companyName != null);
+final settingsExist =
+    StateProvider((ref) => HiveServices.getSettings().companyName != null);
 // create a provider to check user Authentication status
 
 final authStatus = StateProvider<int>((ref) {

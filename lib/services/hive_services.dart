@@ -15,9 +15,9 @@ class HiveServices {
   }
 
 //get and set settings
-  static SettingsModel? getSettings() {
+  static SettingsModel getSettings() {
     var box = Hive.box<SettingsModel>('settings');
-    return box.get('settings', defaultValue: SettingsModel.defaultSettings());
+    return box.get('settings', defaultValue: SettingsModel.defaultSettings())!;
   }
 
   static void setSettings(SettingsModel settings) {

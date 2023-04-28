@@ -20,7 +20,7 @@ void main() async {
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
-    minimumSize: Size(800, 600),
+    minimumSize: Size(900, 700),
     titleBarStyle: TitleBarStyle.hidden,
     fullScreen: false,
   );
@@ -32,7 +32,7 @@ void main() async {
 
   runApp(const ProviderScope(child: MyApp()));
   doWhenWindowReady(() {
-    const initialSize = Size(800, 600);
+    const initialSize = Size(900, 700);
     appWindow.minSize = initialSize;
     appWindow.size = initialSize;
     appWindow.alignment = Alignment.center;
