@@ -14,7 +14,7 @@ final ThemeData kDarkTheme = ThemeData(
     primaryColor: secondaryColors,
     scaffoldBackgroundColor: backgroundColors,
     appBarTheme: const AppBarTheme(backgroundColor: backgroundColors),
-    cardColor: const Color(0xFF3D3D3D),
+    cardColor: secondaryColors,
     textTheme: GoogleFonts.robotoTextTheme().apply(
       bodyColor: Colors.white,
       displayColor: Colors.white,

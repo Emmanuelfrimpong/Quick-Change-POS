@@ -80,9 +80,14 @@ class UserController extends StateNotifier<List<UserModel>> {
       orElse: () => UserModel.defaultUser(),
     );
   }
+
+  void logout() {
+    HiveServices.removeCurrentUser();
+    HiveServices.setLoginStatus(false);
+  }
 }
 
-final currentUserController = Provider<UserModel>((ref) {
+final currentUserController = StateProvider<UserModel>((ref) {
   var id = HiveServices.getCurrentUser();
   var user = ref.read(userController.notifier).getUser(id);
   return user;

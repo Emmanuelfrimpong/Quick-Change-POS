@@ -605,9 +605,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         var newUser = ref.read(userController.notifier).updateLastLogin(user);
         //update current user
         HiveServices.setCurrentUser(newUser.userId!);
+        ref.read(authStatus.notifier).updateAuthStatus(true);
+        ref.read(currentUserController.notifier).state = newUser;
         CustomDialog.dismiss();
         CustomDialog.showToast(message: 'Login Successful');
-        ref.read(authStatus.notifier).updateAuthStatus(true);
       } else {
         CustomDialog.dismiss();
         CustomDialog.showError(

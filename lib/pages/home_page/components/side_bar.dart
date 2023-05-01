@@ -13,7 +13,7 @@ class SideBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var size = MediaQuery.of(context).size;
     var themeMode = ref.watch(themeProvider);
-
+    var user = ref.watch(currentUserController);
     return Drawer(
         width: ref.watch(sideBarWidth),
         elevation: 10,
@@ -50,7 +50,7 @@ class SideBar extends ConsumerWidget {
                 isSelected: ref.watch(currentHomeIndex) == 0,
                 title: 'Dashboard',
                 icon: Icons.apps),
-            if (ref.watch(currentUserController).role!.toLowerCase() == "admin")
+            if (user.role != null && user.role!.toLowerCase() == "admin")
               SideBarItem(
                   onTap: () {
                     ref.read(currentHomeIndex.notifier).state = 1;
@@ -74,16 +74,16 @@ class SideBar extends ConsumerWidget {
                 icon: FontAwesomeIcons.cartShopping),
             SideBarItem(
                 onTap: () {
-                  ref.read(currentHomeIndex.notifier).state = 5;
+                  ref.read(currentHomeIndex.notifier).state = 4;
                 },
-                isSelected: ref.watch(currentHomeIndex) == 5,
+                isSelected: ref.watch(currentHomeIndex) == 4,
                 title: 'Returns/Damages',
                 icon: FontAwesomeIcons.personWalkingArrowLoopLeft),
             SideBarItem(
                 onTap: () {
-                  ref.read(currentHomeIndex.notifier).state = 4;
+                  ref.read(currentHomeIndex.notifier).state = 5;
                 },
-                isSelected: ref.watch(currentHomeIndex) == 4,
+                isSelected: ref.watch(currentHomeIndex) == 5,
                 title: 'Suppliers',
                 icon: FontAwesomeIcons.truckMoving),
             const Divider(

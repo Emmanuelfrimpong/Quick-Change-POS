@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  adaptivex:
+    dependency: transitive
+    description:
+      name: adaptivex
+      sha256: "3bcf399c6e639e9f065c8502cfdaec1b25fa79f77a8f27e14819e36e85b7075d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1+6"
   analyzer:
     dependency: transitive
     description:
@@ -25,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.10.0"
+  ansicolor:
+    dependency: transitive
+    description:
+      name: ansicolor
+      sha256: "607f8fa9786f392043f169898923e6c59b4518242b68b8862eb8a8b7d9c30b4a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   args:
     dependency: transitive
     description:
@@ -632,6 +648,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
+  printx:
+    dependency: transitive
+    description:
+      name: printx
+      sha256: "9216a2deb51e6524c9da569e5122b2fbd1996f15f4935ed627674b79bed794c2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   process:
     dependency: transitive
     description:
@@ -656,6 +680,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.2"
+  responsive_table:
+    dependency: "direct main"
+    description:
+      name: responsive_table
+      sha256: a1dae0478e5adee5ceaabb187e57ce56c671a7827ad70f0933006563ee87e51a
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0+2"
   riverpod:
     dependency: transitive
     description:
