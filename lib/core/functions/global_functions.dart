@@ -8,7 +8,6 @@ Future<Uint8List?> readFileByte(String filePath) async {
   Uint8List? bytes;
   await file.readAsBytes().then((value) {
     bytes = Uint8List.fromList(value);
-    print('reading of bytes is completed');
   });
   return bytes;
 }

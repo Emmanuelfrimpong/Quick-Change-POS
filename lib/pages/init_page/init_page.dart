@@ -2,13 +2,13 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:quickchange_pos/pages/auth_page/forgot_password.dart';
 import 'package:quickchange_pos/pages/auth_page/login_page.dart';
-import 'package:quickchange_pos/pages/auth_page/new_user_setup.dart';
 import 'package:quickchange_pos/pages/home_page/home_page.dart';
 import 'package:quickchange_pos/pages/settings_pages/setttings_page.dart';
+import 'package:quickchange_pos/services/hive_services.dart';
+import 'package:quickchange_pos/services/user_controller.dart';
 import 'package:quickchange_pos/utils/app_colors.dart';
+import 'package:window_manager/window_manager.dart';
 
 import '../../core/widgets/action_controls.dart';
 import '../../services/settings_controller.dart';
@@ -19,13 +19,15 @@ class InitialPage extends ConsumerStatefulWidget {
   ConsumerState<InitialPage> createState() => _InitialPageState();
 }
 
-class _InitialPageState extends ConsumerState<InitialPage> {
+class _InitialPageState extends ConsumerState<InitialPage> with WindowListener {
   bool isHover = false;
 
   @override
   Widget build(BuildContext context) {
     var themeMode = ref.watch(themeProvider);
     var theme = AdaptiveTheme.of(context).theme;
+    var status = ref.watch(authStatus);
+    // HiveServices.setLoginStatus(false);
     return Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -54,6 +56,25 @@ class _InitialPageState extends ConsumerState<InitialPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       children: [
+                        const SizedBox(width: 10),
+                        if (status == 0)
+                          //create a user Profile
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: MemoryImage(
+                                ref.watch(currentUserController).profile!),
+                          ),
+                        const SizedBox(width: 10),
+                        if (status == 0)
+                          //show username and role
+                          Text(
+                            '${ref.watch(currentUserController).username!}(${ref.watch(currentUserController).role!})',
+                            style: normalStyle(
+                                context: context,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold),
+                          ),
                         Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -115,8 +136,6 @@ class _InitialPageState extends ConsumerState<InitialPage> {
                       children: const [
                         HomePage(),
                         LoginPage(),
-                        NewUserPage(),
-                        ForgotPasswordPage()
                       ],
                     )
                   : const SettingsPage(),
@@ -125,5 +144,36 @@ class _InitialPageState extends ConsumerState<InitialPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    windowManager.addListener(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    windowManager.removeListener(this);
+    super.dispose();
+  }
+
+  @override
+  void onWindowResized() {
+    super.onWindowResized();
+    WindowManager.instance.getSize().then((value) {
+      if (value.width < 1000) {
+        ref.read(sideBarWidth.notifier).state = 60;
+      }
+    });
+  }
+
+  @override
+  void onWindowUnmaximize() {
+    WindowManager.instance.getSize().then((value) {
+      if (value.width < 1000) {
+        ref.read(sideBarWidth.notifier).state = 60;
+      }
+    });
   }
 }

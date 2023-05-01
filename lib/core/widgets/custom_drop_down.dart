@@ -1,4 +1,3 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quickchange_pos/utils/app_colors.dart';
@@ -32,7 +31,6 @@ class CustomDropDown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var themeMode = ref.watch(themeProvider);
-    var theme = AdaptiveTheme.of(context).theme;
     return DropdownButtonHideUnderline(
         child: DropdownButtonFormField(
       borderRadius: BorderRadius.circular(5),

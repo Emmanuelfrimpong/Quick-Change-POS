@@ -32,6 +32,12 @@ class SettingsController extends StateNotifier<SettingsModel> {
     state.location = companyLocation;
     state.telephone = companyPhone;
   }
+
+  void saveSettings() {
+    HiveServices.setSettings(state);
+    //let update state
+    updateSettings();
+  }
 }
 
 //create a stream provider that will return a timer that will update every second
@@ -44,14 +50,23 @@ final timerProvider = StreamProvider<String>((ref) {
 
 // create a provider that will check if the settings exist in hive
 // if it does return true else return false
-final settingsExist =
-    StateProvider((ref) => HiveServices.getSettings().companyName != null);
+final settingsExist = StateProvider((ref) {
+  bool exist = HiveServices.settingsExist();
+  return exist;
+});
 // create a provider to check user Authentication status
 
-final authStatus = StateProvider<int>((ref) {
-  bool auth = HiveServices.getLoginStatus();
-  return auth ? 0 : 1;
+final authStatus = StateNotifierProvider<AuthStatus, int>((ref) {
+  return AuthStatus();
 });
+
+class AuthStatus extends StateNotifier<int> {
+  AuthStatus() : super(HiveServices.getLoginStatus() ? 0 : 1);
+  void updateAuthStatus(bool status) {
+    HiveServices.setLoginStatus(status);
+    state = HiveServices.getLoginStatus() ? 0 : 1;
+  }
+}
 
 //create a provider to check the selected theme
 final themeProvider =
@@ -75,5 +90,13 @@ class ThemeProvider extends StateNotifier<AdaptiveThemeMode> {
 
 // create a provider to check the current settings page index
 final settingsPageIndex = StateProvider<int>((ref) {
+  return 0;
+});
+
+final sideBarWidth = StateProvider<double>((ref) {
+  return 60;
+});
+
+final currentHomeIndex = StateProvider<int>((ref) {
   return 0;
 });

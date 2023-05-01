@@ -1,13 +1,7 @@
-// ignore_for_file: file_names
-
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:quickchange_pos/utils/app_colors.dart';
-
-import '../../services/settings_controller.dart';
 
 class CustomTextFields extends ConsumerWidget {
   const CustomTextFields({
@@ -130,7 +124,7 @@ class UpperCaseTextFormatter extends TextInputFormatter {
         selection: newValue.selection,
       );
     }
-    return oldValue;
+    return newValue;
   }
 }
 

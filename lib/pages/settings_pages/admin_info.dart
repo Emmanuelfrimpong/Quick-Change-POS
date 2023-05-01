@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quickchange_pos/core/widgets/custom_drop_down.dart';
+import 'package:quickchange_pos/models/user_model/user_model.dart';
+import 'package:quickchange_pos/pages/init_page/init_page.dart';
 
 import '../../core/constants.dart';
 import '../../core/functions/global_functions.dart';
@@ -13,7 +15,9 @@ import '../../core/widgets/custom_button.dart';
 import '../../core/widgets/custom_input.dart';
 import '../../core/widgets/smart_dialog.dart';
 import '../../generated/assets.dart';
+import '../../services/hive_services.dart';
 import '../../services/settings_controller.dart';
+import '../../services/user_controller.dart';
 import '../../utils/app_colors.dart';
 
 class AdministratorInfoPage extends ConsumerStatefulWidget {
@@ -35,20 +39,14 @@ class _AdministratorInfoPageState extends ConsumerState<AdministratorInfoPage> {
   String? adminPassword;
   String? secretQuestion1;
   String? secretQuestion2;
-  String? secretQuestion3;
   String? answer1;
   String? answer2;
-  String? answer3;
   final _idController = TextEditingController();
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _answer1Controller = TextEditingController();
   final _answer2Controller = TextEditingController();
-  final _answer3Controller = TextEditingController();
-  final _question1Controller = TextEditingController();
-  final _question2Controller = TextEditingController();
-  final _question3Controller = TextEditingController();
 
   bool isPasswordVisible = true;
   int index = 0;
@@ -483,54 +481,6 @@ class _AdministratorInfoPageState extends ConsumerState<AdministratorInfoPage> {
             ),
           ),
           const SizedBox(height: 24),
-          CustomDropDown(
-            label: 'Select Secret Question 3*',
-            value: secretQuestion2,
-            validator: (value) {
-              if (value == null) {
-                return 'Please select secret question';
-              }
-              return null;
-            },
-            onSaved: (value) {
-              setState(() {
-                secretQuestion3 = value;
-              });
-            },
-            onChanged: (p0) => setState(() => secretQuestion3 = p0),
-            items: secretQuestion.map((e) {
-              return DropdownMenuItem(
-                value: e,
-                child: Text(
-                  e,
-                  style: normalStyle(
-                      context: context,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.only(left: 30),
-            child: CustomTextFields(
-              label: 'Enter Answer 3*',
-              controller: _answer3Controller,
-              onSaved: (value) {
-                setState(() {
-                  answer3 = value;
-                });
-              },
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter answer';
-                }
-                return null;
-              },
-            ),
-          ),
-          const SizedBox(height: 24),
           Row(
             children: [
               Expanded(
@@ -599,8 +549,36 @@ class _AdministratorInfoPageState extends ConsumerState<AdministratorInfoPage> {
       CustomDialog.showLoading(message: 'Saving Setup..Please wait.....');
       try {
         _sectionTwoFormKey.currentState!.save();
-
+        // create a new user
+        //read the settings from the state and get company name and address
+        String companyName = ref.read(settingsController).companyName!;
+        UserModel user = UserModel(
+            userId: adminId,
+            username: adminName,
+            password: adminPassword,
+            phone: adminPhone,
+            profile: profileImage,
+            secretQuestion1: secretQuestion1,
+            secretQuestion2: secretQuestion2,
+            secretAnswer1: answer1,
+            secretAnswer2: answer2,
+            role: 'Admin',
+            company: companyName,
+            createdAt: DateTime.now().millisecondsSinceEpoch);
+        // Now we get the settings and the user and save them to the database
+        ref.read(settingsController.notifier).saveSettings();
+        ref.read(userController.notifier).saveUser(user);
+        ref.watch(settingsExist.notifier).state = HiveServices.settingsExist();
         CustomDialog.dismiss();
+        //show success message and navigate to login page
+        CustomDialog.showSuccess(
+            title: 'Setup Complete',
+            message: 'Setup is complete, Please login to continue');
+        //navigate to the init page without returning back
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => const InitialPage()));
       } catch (error) {
         CustomDialog.dismiss();
         CustomDialog.showError(

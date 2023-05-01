@@ -56,5 +56,5 @@ class SettingsModel {
   }
 
   //create a bool to check if settings is default
-  bool get isDefault => this == defaultSettings();
+  bool get isDefault => companyName == null;
 }

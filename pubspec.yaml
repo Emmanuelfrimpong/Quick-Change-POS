@@ -25,6 +25,7 @@ dependencies:
   intl: ^0.17.0
   image_picker_windows: ^0.1.0+6
   image_picker: ^0.8.7+4
+  font_awesome_flutter: ^10.4.0
 
 dev_dependencies:
   flutter_test:

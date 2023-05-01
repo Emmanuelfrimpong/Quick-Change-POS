@@ -26,13 +26,14 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
       email: fields[6] as String?,
       primaryColor: fields[7] as Color?,
       secondaryColor: fields[8] as Color?,
+      createdAt: fields[9] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, SettingsModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.language)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
       ..writeByte(7)
       ..write(obj.primaryColor)
       ..writeByte(8)
-      ..write(obj.secondaryColor);
+      ..write(obj.secondaryColor)
+      ..writeByte(9)
+      ..write(obj.createdAt);
   }
 
   @override
