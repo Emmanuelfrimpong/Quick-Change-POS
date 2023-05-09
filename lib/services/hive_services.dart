@@ -106,4 +106,10 @@ class HiveServices {
     var box = Hive.box('core');
     box.delete('currentUser');
   }
+
+  //create a stream to listen to user changes in the database
+  static Stream<List<UserModel>> getUsersStream() {
+    var box = Hive.box<UserModel>('users');
+    return box.watch().map((event) => event.value.toList());
+  }
 }

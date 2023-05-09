@@ -16,17 +16,21 @@ dependencies:
   cupertino_icons: ^1.0.5
   window_manager: ^0.3.2
   bitsdojo_window: ^0.1.5
-  google_fonts: ^4.0.3
+  google_fonts: ^4.0.4
   adaptive_theme: ^3.2.0
   flutter_riverpod: ^2.3.6
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_smart_dialog: ^4.9.0+6
-  intl: ^0.17.0
+  intl: ^0.18.1
   image_picker_windows: ^0.1.0+6
   image_picker: ^0.8.7+4
   font_awesome_flutter: ^10.4.0
-  responsive_table: ^0.2.0+2
+  #add responsive_table from git
+  responsive_table:
+    git:
+      url: https://github.com/Emmanuelfrimpong/flutter_responsive_table.git
+
 
 dev_dependencies:
   flutter_test:

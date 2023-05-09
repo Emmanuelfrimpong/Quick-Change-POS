@@ -280,7 +280,7 @@ class _AdministratorInfoPageState extends ConsumerState<AdministratorInfoPage> {
                   color: primaryColors,
                   onPressed: () {
                     setState(() {
-                      _idController.text = generateID();
+                      _idController.text = generateID(ref);
                     });
                   },
                 ),
@@ -293,6 +293,7 @@ class _AdministratorInfoPageState extends ConsumerState<AdministratorInfoPage> {
             label: 'Enter Admin Phone Number*',
             keyboardType: TextInputType.phone,
             controller: _phoneController,
+            isDigitOnly: true,
             onSaved: (phone) {
               setState(() {
                 adminPhone = phone;

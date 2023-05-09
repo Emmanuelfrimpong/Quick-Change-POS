@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quickchange_pos/pages/sales_page/sales_page.dart';
 import 'package:quickchange_pos/pages/stocks_page/stock_page.dart';
 import 'package:quickchange_pos/pages/suppliers_page/suppliers_page.dart';
-import 'package:quickchange_pos/pages/users_page/user_page.dart';
+import 'package:quickchange_pos/pages/users_page/users_list.dart';
 import 'package:quickchange_pos/services/settings_controller.dart';
 
 import '../damages_page/damages_page.dart';
 import '../dashboard_page/dashboard_page.dart';
+import '../users_page/users_main_page.dart';
 import 'components/side_bar.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -29,7 +30,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           index: ref.watch(currentHomeIndex),
           children: const [
             DashboardPage(),
-            UsersPage(),
+            UserMainPage(),
             StockPage(),
             SalesPage(),
             DamagesPage(),

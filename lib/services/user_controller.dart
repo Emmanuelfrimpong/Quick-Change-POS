@@ -11,6 +11,8 @@ final userController =
 class UserController extends StateNotifier<List<UserModel>> {
 //get user from hive by default
   UserController() : super(HiveServices.getUsers());
+  // add ref a parameter to the constructor
+
   void getUsers() {
     state = HiveServices.getUsers();
   }
@@ -91,4 +93,47 @@ final currentUserController = StateProvider<UserModel>((ref) {
   var id = HiveServices.getCurrentUser();
   var user = ref.read(userController.notifier).getUser(id);
   return user;
+});
+
+//get filtered users to map with search query
+final usersToMapProvider = StateProvider<List<Map<String, dynamic>>>((ref) {
+  var data = ref.watch(userController);
+  return data.map((e) => e.toMap()).toList();
+});
+
+final queryStringProvider = StateProvider<String>((ref) {
+  return '';
+});
+final filteredUsersToMapProvider = Provider<List<Map<String, dynamic>>>((ref) {
+  var data = ref.watch(usersToMapProvider);
+  switch (ref.watch(queryStringProvider)) {
+    case '':
+      return data;
+    default:
+      return data
+          .where((element) =>
+              element['userId']
+                  .toLowerCase()
+                  .contains(ref.watch(queryStringProvider).toLowerCase()) ||
+              element['username']
+                  .toLowerCase()
+                  .contains(ref.watch(queryStringProvider).toLowerCase()) ||
+              element['phone']
+                  .toLowerCase()
+                  .contains(ref.watch(queryStringProvider).toLowerCase()) ||
+              element['role']
+                  .toLowerCase()
+                  .contains(ref.watch(queryStringProvider).toLowerCase()))
+          .toList();
+  }
+});
+
+//create isSearchingProvider
+final isSearchingProvider = StateProvider<bool>((ref) {
+  return false;
+});
+
+//create selectedUserProvider
+final currentUserProvider = StateProvider<UserModel?>((ref) {
+  return null;
 });
