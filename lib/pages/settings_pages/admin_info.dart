@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:quickchange_pos/core/widgets/custom_drop_down.dart';
 import 'package:quickchange_pos/models/user_model/user_model.dart';
 import 'package:quickchange_pos/pages/init_page/init_page.dart';
-
 import '../../core/constants.dart';
 import '../../core/functions/global_functions.dart';
 import '../../core/widgets/custom_button.dart';
@@ -53,7 +49,6 @@ class _AdministratorInfoPageState extends ConsumerState<AdministratorInfoPage> {
   @override
   Widget build(BuildContext context) {
     var themeMode = ref.watch(themeProvider);
-    var theme = AdaptiveTheme.of(context).theme;
     var size = MediaQuery.of(context).size;
     return Card(
       elevation: 5,
@@ -199,7 +194,6 @@ class _AdministratorInfoPageState extends ConsumerState<AdministratorInfoPage> {
 
   Widget _sectionOne() {
     var themeMode = ref.watch(themeProvider);
-    var theme = AdaptiveTheme.of(context).theme;
     return Form(
       key: _sectionOneFormKey,
       child: Column(
@@ -363,7 +357,6 @@ class _AdministratorInfoPageState extends ConsumerState<AdministratorInfoPage> {
 
   Widget _sectionTwo() {
     var themeMode = ref.watch(themeProvider);
-    var theme = AdaptiveTheme.of(context).theme;
     return Form(
       key: _sectionTwoFormKey,
       child: Column(
@@ -565,6 +558,7 @@ class _AdministratorInfoPageState extends ConsumerState<AdministratorInfoPage> {
             secretAnswer2: answer2,
             role: 'Admin',
             company: companyName,
+            state: 'Active',
             createdAt: DateTime.now().millisecondsSinceEpoch);
         // Now we get the settings and the user and save them to the database
         ref.read(settingsController.notifier).saveSettings();

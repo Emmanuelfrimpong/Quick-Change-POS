@@ -69,6 +69,7 @@ class HiveServices {
   static void setUser(UserModel user) {
     var box = Hive.box<UserModel>('users');
     box.put(user.userId, user);
+    //refresh the user list
   }
 
 //get a single user by id
@@ -111,5 +112,21 @@ class HiveServices {
   static Stream<List<UserModel>> getUsersStream() {
     var box = Hive.box<UserModel>('users');
     return box.watch().map((event) => event.value.toList());
+  }
+
+  static void deleteAllUsers(String currentUserId) {
+    var box = Hive.box<UserModel>('users');
+    //delete all users except the current user
+    box.values
+        .where((element) => element.userId != currentUserId)
+        .toList()
+        .forEach((element) {
+      box.delete(element.userId);
+    });
+  }
+
+  static watchUsers() {
+    var box = Hive.box<UserModel>('users');
+    return box.watch();
   }
 }

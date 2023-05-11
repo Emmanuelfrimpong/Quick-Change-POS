@@ -29,14 +29,9 @@ class UserController extends StateNotifier<List<UserModel>> {
     getUsers();
   }
 
-  //delete user from the database
-  void deleteUser(UserModel userModel) {
-    HiveServices.deleteUser(userModel);
-    getUsers();
-  }
-
   //user login with id and password
   UserModel userLogin(String userId, String password) {
+    print(state[0].userId);
     return state.firstWhere(
         (element) =>
             element.userId!.toLowerCase() == userId.toLowerCase() &&
@@ -96,7 +91,7 @@ final currentUserController = StateProvider<UserModel>((ref) {
 });
 
 //get filtered users to map with search query
-final usersToMapProvider = StateProvider<List<Map<String, dynamic>>>((ref) {
+final usersToMapProvider = Provider<List<Map<String, dynamic>>>((ref) {
   var data = ref.watch(userController);
   return data.map((e) => e.toMap()).toList();
 });

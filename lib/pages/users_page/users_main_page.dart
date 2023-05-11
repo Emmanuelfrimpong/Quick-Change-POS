@@ -11,9 +11,15 @@ class UserMainPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return IndexedStack(
-      index: ref.watch(userPageIndexProvider),
-      children: const [UsersList(), NewUsers(), EditUserPage()],
-    );
+    switch (ref.watch(userPageIndexProvider)) {
+      case 0:
+        return const UsersList();
+      case 1:
+        return const NewUsers();
+      case 2:
+        return const EditUserPage();
+      default:
+        return const UsersList();
+    }
   }
 }

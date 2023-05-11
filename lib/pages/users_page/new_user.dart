@@ -376,6 +376,7 @@ class _NewUsersState extends ConsumerState<NewUsers> {
             ..username = userName!
             ..userId = userId!
             ..profile = profileImage
+            ..state = 'Inactive'
             ..createdAt = DateTime.now().toUtc().millisecondsSinceEpoch;
           ref.read(userController.notifier).saveUser(userModel);
           //clear form

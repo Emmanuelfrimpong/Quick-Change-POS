@@ -601,6 +601,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       CustomDialog.showLoading(message: 'Logging in Please wait...');
       var user = ref.watch(userController.notifier).userLogin(_id!, _password!);
       if (!user.isDefault) {
+        //check user status
+        if (user.state == 'Inactive') {
+          CustomDialog.dismiss();
+          CustomDialog.showError(
+            title: 'Inactive User',
+            message: 'User is inactive, please contact admin',
+          );
+          return;
+        }
         //update user lastLogin
         var newUser = ref.read(userController.notifier).updateLastLogin(user);
         //update current user

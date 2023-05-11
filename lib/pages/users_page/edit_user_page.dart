@@ -12,7 +12,6 @@ import '../../core/functions/global_functions.dart';
 import '../../core/widgets/custom_button.dart';
 import '../../core/widgets/title_text.dart';
 import '../../services/page_navigation_controller.dart';
-import '../../services/settings_controller.dart';
 import '../../services/user_controller.dart';
 
 class EditUserPage extends ConsumerStatefulWidget {
@@ -43,9 +42,10 @@ class _EditUserPageState extends ConsumerState<EditUserPage> {
         _userNameController.text = user.username!;
         _userPhoneController.text = user.phone!;
         //set the user data to the variables
-        userRole = user.role;
-        profileImage = user.profile;
-        setState(() {});
+        setState(() {
+          userRole = user.role;
+          profileImage = user.profile;
+        });
       }
     });
     super.initState();
