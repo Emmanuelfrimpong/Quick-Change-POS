@@ -2,8 +2,8 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:quickchange_pos/services/user_controller.dart';
-import 'package:quickchange_pos/utils/app_colors.dart';
+import '../../../services/user_controller.dart';
+import '../../../utils/app_colors.dart';
 import '../../../services/settings_controller.dart';
 
 class SideBar extends ConsumerWidget {

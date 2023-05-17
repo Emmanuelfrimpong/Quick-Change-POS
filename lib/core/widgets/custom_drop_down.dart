@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quickchange_pos/utils/app_colors.dart';
+import '../../utils/app_colors.dart';
 
 import '../../services/settings_controller.dart';
 

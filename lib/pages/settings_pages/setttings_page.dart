@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quickchange_pos/pages/settings_pages/admin_info.dart';
-import 'package:quickchange_pos/pages/settings_pages/company_info.dart';
+import 'admin_info.dart';
+import 'company_info.dart';
 
 import '../../services/settings_controller.dart';
 

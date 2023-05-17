@@ -6,12 +6,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:quickchange_pos/core/functions/global_functions.dart';
-import 'package:quickchange_pos/models/user_model/user_model.dart';
-import 'package:quickchange_pos/pages/init_page/init_page.dart';
-import 'package:quickchange_pos/services/hive_services.dart';
-import 'package:quickchange_pos/services/user_controller.dart';
-import 'package:quickchange_pos/utils/app_colors.dart';
+import 'package:mongo_dart/mongo_dart.dart' as DB;
+import 'core/functions/global_functions.dart';
+import 'models/user_model/user_model.dart';
+import 'pages/init_page/init_page.dart';
+import 'services/hive_services.dart';
+import 'services/user_controller.dart';
+import 'utils/app_colors.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'services/settings_controller.dart';
@@ -30,6 +31,23 @@ void main() async {
     fullScreen: false,
   );
   //save dummy users
+  var db = DB.Db("mongodb://localhost:27017/free_server");
+  await db.open();
+  var coll = db.collection('users');
+  //collection watch with insert, update, delete
+  var cour = coll.watchCursor([
+    {
+      "\$match": {
+        "operationType": {
+          "\$in": ["insert", "update", "delete"]
+        },
+      }
+    }
+  ]);
+  cour.stream.listen((event) {
+    print(event);
+  });
+  cour.collection?.find().toList().then((value) => print(value[0]));
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.setAsFrameless();
@@ -53,40 +71,6 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var roles = ['Admin', 'Sales', 'Manager'];
-    var states = ['Active', 'Inactive'];
-    final _random = Random();
-    final _random1 = Random();
-    //get current company
-    final company = ref.watch(settingsController).companyName;
-    //get current user
-    // final user = ref.watch(currentUserController);
-    // //delete all users from database exept current user
-    // HiveServices.deleteAllUsers(user.userId!);
-    // //restart the user controller
-    // ref.invalidate(userController);
-    // for (var element in userData) {
-    //   String id = generateID(ref);
-    //   UserModel userModel = UserModel()
-    //     ..userId = id
-    //     ..state = states[_random1.nextInt(2)]
-    //     ..password = element['password'].toString()
-    //     ..secretQuestion1 = null
-    //     ..secretQuestion2 = null
-    //     ..secretAnswer1 = null
-    //     ..secretAnswer2 = null
-    //     //randomly assign role
-    //     ..role = roles[_random.nextInt(roles.length)]
-    //     ..createdAt = DateTime.now().toUtc().millisecondsSinceEpoch
-    //     ..company = company
-    //     ..username = element['username']
-    //     ..phone = element['phone'];
-    //   //delete user if it exists
-    //   HiveServices.deleteUser(userModel);
-    //   //save user
-    //   HiveServices.setUser(userModel);
-    // }
-    // ref.invalidate(userController);
     return AdaptiveTheme(
       light: kLightTheme,
       dark: kDarkTheme,

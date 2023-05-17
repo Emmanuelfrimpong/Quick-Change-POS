@@ -2,7 +2,7 @@ import 'dart:ffi';
 import 'dart:io';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:quickchange_pos/models/settings_model/settings_model.dart';
+import '../models/settings_model/settings_model.dart';
 
 import '../models/user_model/user_model.dart';
 

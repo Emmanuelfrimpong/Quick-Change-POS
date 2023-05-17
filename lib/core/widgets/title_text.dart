@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quickchange_pos/utils/app_colors.dart';
+import '../../utils/app_colors.dart';
 
 Widget titleText(BuildContext context, String title,
     {double? fontSize,

@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quickchange_pos/services/user_controller.dart';
+import '../../services/user_controller.dart';
 
 Future<Uint8List?> readFileByte(String filePath) async {
   File file = File(filePath);

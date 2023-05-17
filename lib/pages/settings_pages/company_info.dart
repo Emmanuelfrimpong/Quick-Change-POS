@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:quickchange_pos/core/widgets/custom_button.dart';
-import 'package:quickchange_pos/core/widgets/custom_input.dart';
-import 'package:quickchange_pos/core/widgets/smart_dialog.dart';
-import 'package:quickchange_pos/utils/app_colors.dart';
+import '../../core/widgets/custom_button.dart';
+import '../../core/widgets/custom_input.dart';
+import '../../core/widgets/smart_dialog.dart';
+import '../../utils/app_colors.dart';
 
 import '../../core/constants.dart';
 import '../../core/functions/global_functions.dart';

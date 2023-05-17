@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quickchange_pos/core/widgets/smart_dialog.dart';
-import 'package:quickchange_pos/services/hive_services.dart';
-import 'package:quickchange_pos/services/user_controller.dart';
+import '../../core/widgets/smart_dialog.dart';
+import '../../services/hive_services.dart';
+import '../../services/user_controller.dart';
 import '../../core/constants.dart';
 import '../../core/widgets/custom_button.dart';
 import '../../core/widgets/custom_drop_down.dart';

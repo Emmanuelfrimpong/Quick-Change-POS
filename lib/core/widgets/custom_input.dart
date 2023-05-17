@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quickchange_pos/utils/app_colors.dart';
+import '../../utils/app_colors.dart';
 
 class CustomTextFields extends ConsumerWidget {
   const CustomTextFields({

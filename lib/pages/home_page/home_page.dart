@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quickchange_pos/pages/sales_page/sales_page.dart';
-import 'package:quickchange_pos/pages/stocks_page/stock_page.dart';
-import 'package:quickchange_pos/pages/suppliers_page/suppliers_page.dart';
-import 'package:quickchange_pos/pages/users_page/users_list.dart';
-import 'package:quickchange_pos/services/settings_controller.dart';
+import '../sales_page/sales_page.dart';
+import '../stocks_page/stock_page.dart';
+import '../suppliers_page/suppliers_page.dart';
+import '../users_page/users_list.dart';
+import '../../services/settings_controller.dart';
 
 import '../damages_page/damages_page.dart';
 import '../dashboard_page/dashboard_page.dart';

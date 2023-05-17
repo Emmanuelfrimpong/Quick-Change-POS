@@ -3,11 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:quickchange_pos/core/widgets/custom_drop_down.dart';
-import 'package:quickchange_pos/core/widgets/custom_input.dart';
-import 'package:quickchange_pos/core/widgets/smart_dialog.dart';
-import 'package:quickchange_pos/models/user_model/user_model.dart';
-import 'package:quickchange_pos/utils/app_colors.dart';
+import '../../core/widgets/custom_drop_down.dart';
+import '../../core/widgets/custom_input.dart';
+import '../../core/widgets/smart_dialog.dart';
+import '../../models/user_model/user_model.dart';
+import '../../utils/app_colors.dart';
 
 import '../../core/functions/global_functions.dart';
 import '../../core/widgets/custom_button.dart';
