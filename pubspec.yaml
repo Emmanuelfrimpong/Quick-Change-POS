@@ -24,9 +24,11 @@ dependencies:
   flutter_smart_dialog: ^4.9.0+6
   intl: ^0.18.1
   image_picker_windows: ^0.1.0+6
-  image_picker: ^0.8.7+4
+  image_picker: ^0.8.7+5
   font_awesome_flutter: ^10.4.0
   mongo_dart: ^0.9.1
+  flutter_bloc: ^8.1.2
+  equatable: ^2.0.5
   #add responsive_table from git
   responsive_table:
     git:
