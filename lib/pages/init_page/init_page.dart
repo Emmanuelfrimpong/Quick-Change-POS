@@ -1,16 +1,13 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/widgets/smart_dialog.dart';
 import '../auth_page/login_page.dart';
 import '../home_page/home_page.dart';
 import '../settings_pages/setttings_page.dart';
-import '../../services/hive_services.dart';
 import '../../services/user_controller.dart';
 import '../../utils/app_colors.dart';
 import 'package:window_manager/window_manager.dart';
-
 import '../../core/widgets/action_controls.dart';
 import '../../services/settings_controller.dart';
 
@@ -37,7 +34,7 @@ class _InitialPageState extends ConsumerState<InitialPage> with WindowListener {
         children: [
           SizedBox(
             height: 50,
-            child: MoveWindow(
+            child: DragToMoveArea(
               child: InkWell(
                 hoverColor: Colors.transparent,
                 highlightColor: Colors.transparent,

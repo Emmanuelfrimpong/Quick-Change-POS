@@ -1,6 +1,4 @@
-
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,14 +29,7 @@ void main() async {
   });
 
   runApp(const ProviderScope(child: MyApp()));
-  doWhenWindowReady(() {
-    const initialSize = Size(900, 700);
-    appWindow.minSize = initialSize;
-    appWindow.size = initialSize;
-    appWindow.alignment = Alignment.center;
-    appWindow.maximize();
-    appWindow.show();
-  });
+
 }
 
 class MyApp extends ConsumerWidget {
