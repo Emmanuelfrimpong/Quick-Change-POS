@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/settings_model/settings_model.dart';
 import 'hive_services.dart';
@@ -24,7 +23,7 @@ class SettingsController extends StateNotifier<SettingsModel> {
       String? companyPhone,
       String? companyLocation,
       String? companyEmail,
-      Uint8List? logo}) {
+      String? logo}) {
     state.companyName = companyName;
     state.companyDescription = companyDescription;
     state.companyLogo = logo;

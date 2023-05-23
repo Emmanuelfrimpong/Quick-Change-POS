@@ -1,40 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-
-part 'user_model.g.dart';
-
-@HiveType(typeId: 1)
-class UserModel extends HiveObject {
-  @HiveField(0)
+class UserModel {
   String? userId;
-  @HiveField(1)
   String? username;
-  @HiveField(2)
   String? password;
-  @HiveField(3)
   String? phone;
-  @HiveField(4)
   int? lastLogin;
-  @HiveField(5)
   String? role;
-  @HiveField(6)
-  Uint8List? profile;
-  @HiveField(7)
+  String? profile;
   String? secretQuestion1;
-  @HiveField(8)
   String? secretQuestion2;
-  @HiveField(9)
   String? secretAnswer1;
-  @HiveField(10)
   String? secretAnswer2;
-  @HiveField(11)
   int? createdAt;
-  @HiveField(12)
   String? company;
-  @HiveField(13)
   String? state;
   UserModel({
     this.userId,
@@ -84,7 +64,7 @@ class UserModel extends HiveObject {
     String? phone,
     int? lastLogin,
     String? role,
-    Uint8List? profile,
+    String? profile,
     String? secretQuestion1,
     String? secretQuestion2,
     String? secretAnswer1,
@@ -138,7 +118,7 @@ class UserModel extends HiveObject {
       phone: map['phone'] != null ? map['phone'] as String : null,
       lastLogin: map['lastLogin'] != null ? map['lastLogin'] as int : null,
       role: map['role'] != null ? map['role'] as String : null,
-      profile: map['profile'] != null ? map['profile'] as Uint8List : null,
+      profile: map['profile'] != null ? map['profile'] as String : null,
       secretQuestion1: map['secretQuestion1'] != null
           ? map['secretQuestion1'] as String
           : null,

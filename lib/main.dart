@@ -1,17 +1,10 @@
-import 'dart:math';
-
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:mongo_dart/mongo_dart.dart' as DB;
-import 'core/functions/global_functions.dart';
-import 'models/user_model/user_model.dart';
 import 'pages/init_page/init_page.dart';
 import 'services/hive_services.dart';
-import 'services/user_controller.dart';
 import 'utils/app_colors.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -30,24 +23,6 @@ void main() async {
     titleBarStyle: TitleBarStyle.hidden,
     fullScreen: false,
   );
-  //save dummy users
-  var db = DB.Db("mongodb://localhost:27017/free_server");
-  await db.open();
-  var coll = db.collection('users');
-  //collection watch with insert, update, delete
-  var cour = coll.watchCursor([
-    {
-      "\$match": {
-        "operationType": {
-          "\$in": ["insert", "update", "delete"]
-        },
-      }
-    }
-  ]);
-  cour.stream.listen((event) {
-    print(event);
-  });
-  cour.collection?.find().toList().then((value) => print(value[0]));
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.setAsFrameless();
@@ -55,14 +30,6 @@ void main() async {
   });
 
   runApp(const ProviderScope(child: MyApp()));
-  doWhenWindowReady(() {
-    const initialSize = Size(900, 700);
-    appWindow.minSize = initialSize;
-    appWindow.size = initialSize;
-    appWindow.alignment = Alignment.center;
-    appWindow.maximize();
-    appWindow.show();
-  });
 }
 
 class MyApp extends ConsumerWidget {
