@@ -23,6 +23,7 @@ void main() async {
     titleBarStyle: TitleBarStyle.hidden,
     fullScreen: false,
   );
+
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.setAsFrameless();
     await windowManager.focus();

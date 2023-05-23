@@ -1,5 +1,4 @@
 import 'package:mongo_dart/mongo_dart.dart';
-
 import '../models/user_model/user_model.dart';
 
 class MongodbAPI {
@@ -57,9 +56,10 @@ class MongodbAPI {
 
   //! User functions===========================================================================
   //* Get all users from database
-  static Future<List<Map<String, dynamic>>> getUsers() async {
+
+  static Future<List<UserModel>> getUsers() async {
     final users = await db.collection('users').find().toList();
-    return users;
+    return users.map((e) => UserModel.fromMap(e)).toList();
   }
 
   //* Get user by id from database

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -94,9 +96,9 @@ class _InitialPageState extends ConsumerState<InitialPage> with WindowListener {
                                     CircleAvatar(
                                       radius: 20,
                                       backgroundColor: Colors.transparent,
-                                      backgroundImage: MemoryImage(ref
+                                      backgroundImage: FileImage(File(ref
                                           .watch(currentUserController)
-                                          .profile!),
+                                          .profile!)),
                                     ),
                                     const SizedBox(width: 10),
 

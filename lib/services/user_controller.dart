@@ -31,7 +31,6 @@ class UserController extends StateNotifier<List<UserModel>> {
 
   //user login with id and password
   UserModel userLogin(String userId, String password) {
-    print(state[0].userId);
     return state.firstWhere(
         (element) =>
             element.userId!.toLowerCase() == userId.toLowerCase() &&

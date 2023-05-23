@@ -1,6 +1,6 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import '../models/settings_model/settings_model.dart';
 
@@ -9,15 +9,13 @@ import '../models/user_model/user_model.dart';
 class HiveServices {
   static Future<void> init() async {
     String path = Directory('${Directory.current.path}/Database').path;
-    await Hive.initFlutter(path);
-    Hive.registerAdapter(SettingsModelAdapter());
-    await Hive.openBox<SettingsModel>('settings');
-    //create and open a general box for saving general information
-    await Hive.openBox('core');
-
-    //register userModel Adapter and open box
-    Hive.registerAdapter(UserModelAdapter());
-    await Hive.openBox<UserModel>('users');
+    final collection = await BoxCollection.open(
+      'Database', // Name of your database
+      {'core'}, // Names of your boxes
+      path: path,
+    );
+    // Open your boxes. Optional: Give it a type.
+    final core = collection.openBox('core');
   }
 
 //get and set settings
